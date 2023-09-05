@@ -38,7 +38,7 @@ frappe.ui.form.on('Salary Structure', {
 		help_button_wrapper.empty();
 		help_button_wrapper.append(frm.doc.filters_html).append(help_button)
 
-		frm.toggle_reqd(['payroll_frequency'], !frm.doc.salary_slip_based_on_timesheet)
+		frm.toggle_reqd(['payroll_frequency'], !frm.doc.salary_slip_based_on_timesheet || !frm.doc.salary_slip_based_on_wage);
 
 		frm.set_query("payment_account", function () {
 			var account_types = ["Bank", "Cash"];
@@ -190,6 +190,11 @@ frappe.ui.form.on('Salary Structure', {
 
 	},
 
+	salary_slip_based_on_wage: function(frm) {
+		frm.trigger("toggle_fields");
+
+	},
+
 	preview_salary_slip: function(frm) {
 		frappe.call({
 			method: "hrms.payroll.doctype.salary_structure.salary_structure.get_employees",
@@ -249,8 +254,10 @@ frappe.ui.form.on('Salary Structure', {
 	},
 
 	toggle_fields: function(frm) {
-		frm.toggle_display(['salary_component', 'hour_rate'], frm.doc.salary_slip_based_on_timesheet);
-		frm.toggle_reqd(['salary_component', 'hour_rate'], frm.doc.salary_slip_based_on_timesheet);
+		frm.toggle_display(['salary_component', 'hour_rate'], frm.doc.salary_slip_based_on_timesheet || frm.doc.salary_slip_based_on_wage);
+		frm.toggle_display(['salary_slip_based_on_timesheet'], !frm.doc.salary_slip_based_on_wage);
+		frm.toggle_display(['salary_slip_based_on_wage'], !frm.doc.salary_slip_based_on_timesheet);
+		frm.toggle_reqd(['salary_component', 'hour_rate'], frm.doc.salary_slip_based_on_timesheet || frm.doc.salary_slip_based_on_wage);
 		frm.toggle_reqd(['payroll_frequency'], !frm.doc.salary_slip_based_on_timesheet);
 	}
 });
