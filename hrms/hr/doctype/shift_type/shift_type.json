@@ -18,6 +18,7 @@
   "working_hours_calculation_based_on",
   "begin_check_in_before_shift_start_time",
   "allow_check_out_after_shift_end_time",
+  "working_hours_cap",
   "mark_auto_attendance_on_holidays",
   "column_break_10",
   "working_hours_threshold_for_half_day",
@@ -179,10 +180,17 @@
    "fieldname": "unpaid_breaks_minutes",
    "fieldtype": "Int",
    "label": "Unpaid breaks (minutes)"
+  },
+  {
+   "description": "Cap the number of hours the auto attendance should calculate (0 or unset to disable)",
+   "fieldname": "working_hours_cap",
+   "fieldtype": "Float",
+   "label": "Working hours cap",
+   "precision": "2"
   }
  ],
  "links": [],
- "modified": "2023-09-06 15:37:20.112970",
+ "modified": "2023-09-08 11:30:53.746913",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Shift Type",
