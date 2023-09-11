@@ -102,6 +102,16 @@ class ShiftType(Document):
 		total_working_hours, in_time, out_time = calculate_working_hours(
 			logs, self.determine_check_in_and_check_out, self.working_hours_calculation_based_on
 		)
+
+		unpaid_breaks_hours = 0
+		if self.include_unpaid_breaks:
+			unpaid_breaks_hours = round(self.unpaid_breaks_minutes / 60, 2)
+
+		total_working_hours = total_working_hours - unpaid_breaks_hours
+
+		if self.working_hours_cap and total_working_hours > self.working_hours_cap:
+			total_working_hours = self.working_hours_cap
+
 		if (
 			cint(self.enable_late_entry_marking)
 			and in_time
